@@ -4,6 +4,7 @@ const PORT = process.env.PORT || 8000;
 const dotenv = require("dotenv");
 const path = require("path");
 const session = require("express-session");
+const userRoutes = require("./routes/user");
 
 dotenv.config({ path: "./config.env" });
 require("./db/conn");
@@ -25,9 +26,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// routes prefix
+
 app.get("/", (req, res) => {
   res.send("hello node js");
 });
+
+app.use("/api/user", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`server is running on http://localhost:${PORT}`);
