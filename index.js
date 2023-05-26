@@ -9,17 +9,18 @@ const userRoutes = require("./routes/user");
 dotenv.config({ path: "./config.env" });
 require("./db/conn");
 
-//middlewears
+//middleware
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
-    secret: "my serect Key",
+    secret: "my secret Key",
     saveUninitialized: true,
     resave: false,
   })
 );
+
 app.use((req, res, next) => {
   res.locals.message = req.session.message;
   delete req.session.message;
@@ -28,12 +29,14 @@ app.use((req, res, next) => {
 
 // routes prefix
 
-app.get("/", (req, res) => {
-  res.send("hello node js");
-});
+// app.get("/", (req, res) => {
+//   res.send("hello node js");
+// });
+app.set("view engine", "ejs");
 
 app.use("/api/user", userRoutes);
 
+// port listening
 app.listen(PORT, () => {
   console.log(`server is running on http://localhost:${PORT}`);
 });
