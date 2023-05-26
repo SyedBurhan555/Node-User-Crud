@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 // });
 app.set("view engine", "ejs");
 
-app.use("/api/user", userRoutes);
+app.use("/", userRoutes);
 
 // port listening
 app.listen(PORT, () => {
