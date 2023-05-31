@@ -4,7 +4,6 @@ const multer = require("multer");
 const User = require("../model/user");
 
 //save images in mutler
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./uploads");
@@ -21,24 +20,12 @@ const upload = multer({
 // user post req
 router.post("/add", upload, async (req, res) => {
   try {
-    // console.log(req.body.name);
     const user = new User({
       name: req.body.name,
       email: req.body.email,
       phone: req.body.phone,
       image: req.file.filename,
     });
-    // await user.save((err) => {
-    //   if (err) {
-    //     res.json({ message: err.message, type: "danger" });
-    //   } else {
-    //     req.session.message = {
-    //       type: "success",
-    //       message: "User Add Successfully",
-    //     };
-    //     res.redirect("/");
-    //   }
-    // });
     await user.save();
 
     req.session.message = {
@@ -52,9 +39,14 @@ router.post("/add", upload, async (req, res) => {
   }
 });
 
-router.get("/", (req, res) => {
-  // res.send("all user");
-  res.render("index", { title: "home page" });
+// get all user
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.render("index", { title: "home page", users: users });
+  } catch (err) {
+    res.json({ message: err.message });
+  }
 });
 
 router.get("/add", (req, res) => {

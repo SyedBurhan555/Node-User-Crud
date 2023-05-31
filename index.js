@@ -27,6 +27,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(express.static("uploads"));
+
 // routes prefix
 
 // app.get("/", (req, res) => {
