@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8000;
 const dotenv = require("dotenv");
-const path = require("path");
 const session = require("express-session");
 const userRoutes = require("./routes/user");
 
@@ -28,13 +27,9 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static("uploads"));
+app.set("view engine", "ejs");
 
 // routes prefix
-
-// app.get("/", (req, res) => {
-//   res.send("hello node js");
-// });
-app.set("view engine", "ejs");
 
 app.use("/", userRoutes);
 

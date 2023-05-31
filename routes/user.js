@@ -27,12 +27,10 @@ router.post("/add", upload, async (req, res) => {
       image: req.file.filename,
     });
     await user.save();
-
     req.session.message = {
       type: "success",
       message: "User added successfully",
     };
-
     res.redirect("/");
   } catch (err) {
     console.log({ message: err.message });
