@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const User = require("../model/user");
+const fs = require("fs");
 
 //save images in mutler
 const storage = multer.diskStorage({
@@ -47,7 +48,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//edit user-data
+//get single-user-data
 router.get("/edit/:id", async (req, res) => {
   try {
     let id = req.params.id;
@@ -63,6 +64,42 @@ router.get("/edit/:id", async (req, res) => {
     }
   } catch (err) {
     console.log(err.message);
+  }
+});
+
+//update users
+router.post("/update/:id", upload, async (req, res) => {
+  try {
+    let id = req.params.id;
+    let new_image = "";
+    if (req.file) {
+      new_image = req.file.filename;
+      try {
+        fs.unlinkSync("./uploads/" + req.body.old_image);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send("Error deleting file.");
+        return;
+      }
+    } else {
+      new_image = req.body.old_image;
+    }
+
+    await User.findByIdAndUpdate(id, {
+      name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
+      image: new_image,
+    });
+
+    req.session.message = {
+      type: "success",
+      message: "User Updated Success",
+    };
+    res.redirect("/");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error updating user.");
   }
 });
 
