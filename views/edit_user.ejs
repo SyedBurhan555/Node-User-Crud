@@ -1,0 +1,104 @@
+<%- include('layout/header')%>
+<div class="container">
+  <div class="row">
+    <section class="mt-2">
+      <div class="container">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-xl-9">
+            <h1 class="text-dark mb-4">Edit User (<%= user.name %>)</h1>
+            <div class="card" style="border-radius: 15px">
+              <form
+                action="/update/<%= user._id %>"
+                method="post"
+                enctype="multipart/form-data"
+              >
+                <div class="card-body">
+                  <div class="row align-items-center pt-4 pb-3">
+                    <div class="col-md-3 ps-5">
+                      <h6 class="mb-0">Full name</h6>
+                    </div>
+                    <div class="col-md-9 pe-5">
+                      <input
+                        type="text"
+                        name="name"
+                        value="<%= user.name %>"
+                        class="form-control form-control-lg"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <hr class="mx-n3" />
+                  <div class="row align-items-center py-3">
+                    <div class="col-md-3 ps-5">
+                      <h6 class="mb-0">Email address</h6>
+                    </div>
+                    <div class="col-md-9 pe-5">
+                      <input
+                        type="email"
+                        value="<%= user.email %>"
+                        name="email"
+                        class="form-control form-control-lg"
+                        placeholder="example@example.com"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <hr class="mx-n3" />
+                  <div class="row align-items-center pt-4 pb-3">
+                    <div class="col-md-3 ps-5">
+                      <h6 class="mb-0">Phone</h6>
+                    </div>
+                    <div class="col-md-9 pe-5">
+                      <input
+                        type="tel"
+                        name="phone"
+                        value="<%= user.phone %>"
+                        class="form-control form-control-lg"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <hr class="mx-n3" />
+                  <div class="row align-items-center py-3">
+                    <div class="col-md-3 ps-5">
+                      <h6 class="mb-0">Select Image</h6>
+                    </div>
+                    <div class="col-md-9 pe-5">
+                      <input
+                        class="form-control form-control-lg"
+                        type="file"
+                        name="image"
+                        required
+                      />
+                      <img
+                        src="/<%= user.image %>"
+                        width="100"
+                        class="img-thumbnail mt-1"
+                      />
+                    </div>
+                    <input
+                      type="hidden"
+                      name="old_image"
+                      value="<%= user.image %>"
+                    />
+                  </div>
+                  <hr class="mx-n3" />
+                  <div class="px-4 py-4">
+                    <input
+                      type="submit"
+                      name="submit"
+                      value="Update User"
+                      class="btn btn-success btn-lg"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<%- include('layout/footer')%>

@@ -47,6 +47,25 @@ router.get("/", async (req, res) => {
   }
 });
 
+//edit user-data
+router.get("/edit/:id", async (req, res) => {
+  try {
+    let id = req.params.id;
+    let user = await User.findById(id);
+
+    if (user == null) {
+      res.redirect("/");
+    } else {
+      res.render("edit_user", {
+        title: "Edit User",
+        user: user,
+      });
+    }
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
 router.get("/add", (req, res) => {
   res.render("addUser", { title: "add User" });
 });
