@@ -84,7 +84,6 @@ router.post("/update/:id", upload, async (req, res) => {
     } else {
       new_image = req.body.old_image;
     }
-
     await User.findByIdAndUpdate(id, {
       name: req.body.name,
       email: req.body.email,
@@ -100,6 +99,26 @@ router.post("/update/:id", upload, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Error updating user.");
+  }
+});
+
+// delete user-data
+
+router.get("/delete/:id", async (req, res) => {
+  try {
+    let id = req.params.id;
+    const user = await User.findByIdAndRemove(id);
+
+    if (user && user.image) {
+      await fs.unlinkSync("./uploads/" + user.image);
+    }
+    req.session.message = {
+      type: "success",
+      message: "User deleted successfully",
+    };
+    res.redirect("/");
+  } catch (err) {
+    res.json({ message: err.message });
   }
 });
 
